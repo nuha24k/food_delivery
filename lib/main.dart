@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'core/theme/app_theme.dart';
-import 'features/home/pages/home_page.dart';
+import 'features/splash_screen/pages/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class FoodDeliverApp extends StatelessWidget {
       title: 'Food Deliver',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const HomePage(),
+      home: const SplashPage(),
     );
   }
 }

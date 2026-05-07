@@ -107,7 +107,14 @@ class _HomeView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const SafeArea(child: BottomNavBar()),
+      bottomNavigationBar: SafeArea(
+        child: BlocBuilder<HomeBloc, HomeState>(
+          buildWhen: (previous, current) => previous.currentNavIndex != current.currentNavIndex,
+          builder: (context, state) {
+            return HomeBottomNav(selectedIndex: state.currentNavIndex);
+          },
+        ),
+      ),
     );
   }
 

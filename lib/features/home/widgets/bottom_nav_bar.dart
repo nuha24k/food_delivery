@@ -1,125 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../core/theme/app_theme.dart';
+import '../../../core/theme/app_theme.dart';
 import '../bloc/home_bloc.dart';
 
-class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key});
+/// Bottom navigation bar dengan animated pill indicator.
+/// Memiliki 4 tab: Home, Wishlist, Cart, Profile.
+class HomeBottomNav extends StatelessWidget {
+  final int selectedIndex;
+
+  const HomeBottomNav({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        final currentIndex = state.currentNavIndex;
-        return Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 20,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _NavItem(
-                  icon: Icons.home_rounded,
-                  label: 'Home',
-                  isSelected: currentIndex == 0,
-                  onTap: () => context
-                      .read<HomeBloc>()
-                      .add(const HomeNavTabChanged(0)),
-                ),
-                _NavItem(
-                  icon: Icons.receipt_long_rounded,
-                  label: 'Orders',
-                  isSelected: currentIndex == 1,
-                  onTap: () => context
-                      .read<HomeBloc>()
-                      .add(const HomeNavTabChanged(1)),
-                ),
-                _NavItem(
-                  icon: Icons.credit_card_rounded,
-                  label: 'Payment',
-                  isSelected: currentIndex == 2,
-                  onTap: () => context
-                      .read<HomeBloc>()
-                      .add(const HomeNavTabChanged(2)),
-                ),
-                _NavItem(
-                  icon: Icons.person_rounded,
-                  label: 'Profile',
-                  isSelected: currentIndex == 3,
-                  onTap: () => context
-                      .read<HomeBloc>()
-                      .add(const HomeNavTabChanged(3)),
-                ),
-              ],
-            ),
+    final items = [
+      (Icons.home_rounded, Icons.home_outlined, 'Home'),
+      (Icons.favorite_rounded, Icons.favorite_border_rounded, 'Orders'),
+      (Icons.shopping_cart_rounded, Icons.shopping_cart_outlined, 'Payment'),
+      (Icons.person_rounded, Icons.person_outline_rounded, 'Profile'),
+    ];
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+      height: 68,
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(36),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
-        );
-      },
-    );
-  }
-}
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(items.length, (i) {
+          final isSelected = i == selectedIndex;
+          final (activeIcon, inactiveIcon, label) = items[i];
 
-class _NavItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _NavItem({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.12)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? AppColors.primary : AppColors.textSecondary,
-              size: 24,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: GoogleFonts.poppins(
-                fontSize: 11,
-                fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
-                color:
-                    isSelected ? AppColors.primary : AppColors.textSecondary,
+          return GestureDetector(
+            onTap: () => context.read<HomeBloc>().add(HomeNavTabChanged(i)),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.primary : Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    isSelected ? activeIcon : inactiveIcon,
+                    color: isSelected ? AppColors.onPrimary : AppColors.textSecondary,
+                    size: 22,
+                  ),
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    child: isSelected
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(width: 6),
+                              Text(
+                                label,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.onPrimary,
+                                ),
+                              ),
+                            ],
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

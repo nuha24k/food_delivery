@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../product_details/bloc/product_details_bloc.dart';
+import '../../product_details/bloc/product_details_event.dart';
+import '../../product_details/pages/product_details_page.dart';
 import '../bloc/home_bloc.dart';
 import 'food_card.dart';
 
@@ -54,10 +57,21 @@ class PicksForYouSection extends StatelessWidget {
                   final food = state.picksForYou[index];
                   return FoodCard(
                     food: food,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) =>
+                                ProductDetailsBloc()
+                                  ..add(LoadProductDetails(food)),
+                            child: const ProductDetailsPage(),
+                          ),
+                        ),
+                      );
+                    },
                     onFavoriteToggle: () {
-                      context
-                          .read<HomeBloc>()
-                          .add(HomeToggleFavorite(food.id));
+                      context.read<HomeBloc>().add(HomeToggleFavorite(food.id));
                     },
                   );
                 },

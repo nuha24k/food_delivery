@@ -53,15 +53,15 @@ class FoodItemModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        restaurant,
-        imageUrl,
-        rating,
-        reviewCount,
-        deliveryTimeMinutes,
-        difficulty,
-        price,
-        isFavorite,
-      ];
+    id,
+    name,
+    restaurant,
+    imageUrl,
+    rating,
+    reviewCount,
+    deliveryTimeMinutes,
+    difficulty,
+    price,
+    isFavorite,
+  ];
 }

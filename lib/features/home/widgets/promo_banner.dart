@@ -71,9 +71,8 @@ class PromoBanner extends StatelessWidget {
                   imageUrl:
                       'https://images.unsplash.com/photo-1553621042-f6e147245754?w=300&q=80',
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.orange.withValues(alpha: 0.3),
-                  ),
+                  placeholder: (context, url) =>
+                      Container(color: Colors.orange.withValues(alpha: 0.3)),
                   errorWidget: (context, url, error) => Container(
                     color: Colors.orange.withValues(alpha: 0.3),
                     child: const Icon(Icons.fastfood, color: Colors.white54),
@@ -114,7 +113,9 @@ class PromoBanner extends StatelessWidget {
                   onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.onPrimary,
                       borderRadius: BorderRadius.circular(8),

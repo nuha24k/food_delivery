@@ -59,9 +59,9 @@ class PopularRestaurantsSection extends StatelessWidget {
                 return _RestaurantTile(
                   restaurant: restaurant,
                   onFavoriteToggle: () {
-                    context
-                        .read<HomeBloc>()
-                        .add(HomeToggleFavorite(restaurant.id));
+                    context.read<HomeBloc>().add(
+                      HomeToggleFavorite(restaurant.id),
+                    );
                   },
                 );
               },
@@ -200,7 +200,9 @@ class _RestaurantTile extends StatelessWidget {
                 restaurant.isFavorite
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
-                color: restaurant.isFavorite ? AppColors.red : AppColors.textSecondary,
+                color: restaurant.isFavorite
+                    ? AppColors.red
+                    : AppColors.textSecondary,
                 size: 20,
               ),
             ),

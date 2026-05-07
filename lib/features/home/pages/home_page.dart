@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc(repository: HomeRepository())
-        ..add(const HomeLoadData()),
+      create: (_) =>
+          HomeBloc(repository: HomeRepository())..add(const HomeLoadData()),
       child: const _HomeView(),
     );
   }
@@ -53,8 +53,11 @@ class _HomeView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.error_outline,
-                              color: AppColors.textSecondary, size: 48),
+                          const Icon(
+                            Icons.error_outline,
+                            color: AppColors.textSecondary,
+                            size: 48,
+                          ),
                           const SizedBox(height: 12),
                           Text(
                             'Gagal memuat data',
@@ -64,9 +67,9 @@ class _HomeView extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           ElevatedButton(
-                            onPressed: () => context
-                                .read<HomeBloc>()
-                                .add(const HomeLoadData()),
+                            onPressed: () => context.read<HomeBloc>().add(
+                              const HomeLoadData(),
+                            ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
                               foregroundColor: AppColors.onPrimary,
@@ -109,7 +112,8 @@ class _HomeView extends StatelessWidget {
       ),
       bottomNavigationBar: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
-          buildWhen: (previous, current) => previous.currentNavIndex != current.currentNavIndex,
+          buildWhen: (previous, current) =>
+              previous.currentNavIndex != current.currentNavIndex,
           builder: (context, state) {
             return HomeBottomNav(selectedIndex: state.currentNavIndex);
           },
@@ -157,10 +161,7 @@ class _HomeView extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.divider,
-                    width: 1,
-                  ),
+                  border: Border.all(color: AppColors.divider, width: 1),
                 ),
                 child: const Icon(
                   Icons.shopping_bag_outlined,
@@ -212,9 +213,7 @@ class _HomeView extends StatelessWidget {
               ),
               child: TextField(
                 onChanged: (value) {
-                  context
-                      .read<HomeBloc>()
-                      .add(HomeSearchChanged(value));
+                  context.read<HomeBloc>().add(HomeSearchChanged(value));
                 },
                 style: GoogleFonts.poppins(
                   color: AppColors.textPrimary,
@@ -232,8 +231,7 @@ class _HomeView extends StatelessWidget {
                     size: 22,
                   ),
                   border: InputBorder.none,
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
             ),
@@ -264,4 +262,3 @@ class _HomeView extends StatelessWidget {
     );
   }
 }
-
